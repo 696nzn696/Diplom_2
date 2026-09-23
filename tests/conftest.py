@@ -18,7 +18,8 @@ def create_test_user():
 
     data = response.json()
     access_token = data.get("accessToken")
-    resp = requests.delete(f"{Url.DELETE_USER}", headers={"Authorization": f"Bearer {access_token}"})
+    if access_token:
+        Methods.delete_user(access_token)
 
 
 @pytest.fixture

@@ -32,3 +32,12 @@ class Methods:
         if token:
             headers["Authorization"] = f"{token}"
         return requests.post(f"{Url.CREATE_ORDER}", json=payload, headers=headers)
+
+    @staticmethod
+    @allure.step("Удаление пользователя")
+    def delete_user(access_token):
+        response = requests.delete(
+            f"{Url.DELETE_USER}",
+            headers={"Authorization": access_token}
+        )
+        return response

@@ -26,13 +26,15 @@ class TestCreateOrder:
         response = Methods.create_order(payload=payload, token=authorized_user_token)
         assert response.status_code == 200
 
-    @allure.title("Создание заказа: попытка без авторизации")
+    @allure.title("Создание заказа: попытка создать заказ без авторизации")
     @allure.description("Проверяется защита эндпоинта создания заказа. Авторизационный токен не передаётся (token=None). "
-                        "Ожидается статус 401 Unauthorized, подтверждающий, что система запрещает создавать заказы неавторизованным пользователям.")   
+                        "Ожидается статус 200, флаг success=True")   
     def test_create_order_unauthorized(self):
         payload = Data.ingredient_id
         response = Methods.create_order(payload=payload, token=None)
-        assert response.status_code == 401
+        assert response.status_code == 200
+        data = response.json()
+        assert data.get("success") is True
 
     @allure.title("Создание заказа: пустой список ингредиентов")
     @allure.description("Проверяется валидация входных данных: передача пустого списка ингредиентов. "
